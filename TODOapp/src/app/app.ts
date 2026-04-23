@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { Tarefa } from "./tarefa";
 import { HttpClient } from '@angular/common/http';
 
@@ -18,7 +18,6 @@ export class App
     constructor(private http: HttpClient) 
     { 
       this.apiURL = 'https://apitarefasjoao254381.onrender.com';
-      this.READ_tarefas(); 
     }
 
     CREATE_tarefa(descricaoNovaTarefa: string) 
@@ -27,7 +26,8 @@ export class App
       this.http.post<Tarefa>(`${this.apiURL}/api/post`, novaTarefa).subscribe(
       resultado => { console.log(resultado); this.READ_tarefas(); });
     }
-    
+
+    ngOnInit() {this.READ_tarefas();}
     READ_tarefas() 
     {
       this.http.get<Tarefa[]>(`${this.apiURL}/api/getAll`).subscribe(
@@ -49,13 +49,6 @@ export class App
       this.http.delete<Tarefa>(`${this.apiURL}/api/delete/${id}`).subscribe(
         resultado => { console.log(resultado); this.READ_tarefas(); });
     }
-
-
-
-
-
-
-
 
 }
 
